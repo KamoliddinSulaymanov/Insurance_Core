@@ -75,6 +75,16 @@
 - Actions: process (Under Review), reject, or pending with suggestion document
 - See [docs/Flow_integration.md](docs/Flow_integration.md) for install, config, and usage
 
+### K. Insurance Provider API (optional quote fetch)
+
+Brokers still collect quotes **manually** (email, insurer portal, phone) by default. Where an insurer exposes a quote API, configure **Insurance Provider API** against that **Insurance Provider**:
+
+- Base URL, auth type (API Key / Bearer / Basic / OAuth2), encrypted credentials
+- Quote endpoint, request template, response mapping to premium / validity / sum insured
+- Supported lines of business; sandbox vs production
+
+On an RFQ, invited insurers **with** an enabled API can be queried automatically; others stay on the manual path. API failure for one insurer does not block the RFQ. Core ERPNext RFQ / Supplier Quotation documents are not modified.
+
 ## Installation
 
 This repository is a Frappe app. **Frappe Flow** (`flow`) is a required dependency for AI claim triage.
@@ -85,7 +95,7 @@ This repository is a Frappe app. **Frappe Flow** (`flow`) is a required dependen
 cd $PATH_TO_YOUR_BENCH
 
 # Fetches insurance_core and resolves required_apps (including flow)
-bench get-app https://github.com/VivaswanWorks/Insurance.git --resolve-deps
+bench get-app https://github.com/VivaswanWorks/insurance_core.git --resolve-deps
 # Or if the app is already under apps/insurance_core:
 #   bench get-app flow
 
@@ -107,7 +117,7 @@ bench get-app flow
 # Official clone URL if the short name is unknown:
 # bench get-app https://github.com/frappe/flow_client.git
 
-bench get-app https://github.com/VivaswanWorks/Insurance.git
+bench get-app https://github.com/VivaswanWorks/insurance_core.git
 bench --site <site> install-app flow
 bench --site <site> install-app insurance_core
 ```
