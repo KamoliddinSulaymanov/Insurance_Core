@@ -1,0 +1,200 @@
+{
+  "actions": [],
+  "allow_import": 1,
+  "allow_rename": 1,
+  "autoname": "field:rule_name",
+  "creation": "2026-09-15 00:00:00",
+  "default_view": "List",
+  "doctype": "DocType",
+  "document_type": "Document",
+  "engine": "InnoDB",
+  "field_order": [
+    "rule_name",
+    "insurance_provider",
+    "priority",
+    "is_active",
+    "section_criteria",
+    "line_of_business",
+    "product_category",
+    "min_sum_insured",
+    "max_sum_insured",
+    "client_types",
+    "min_age",
+    "max_age",
+    "geographic_zones",
+    "section_quality",
+    "min_credit_rating",
+    "min_claim_settlement_ratio",
+    "accepts_pre_existing",
+    "special_conditions",
+    "section_validity",
+    "require_active_agreement",
+    "valid_from",
+    "valid_to",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "rule_name",
+      "fieldtype": "Data",
+      "label": "Rule Name",
+      "reqd": 1,
+      "unique": 1,
+      "in_list_view": 1,
+      "bold": 1
+    },
+    {
+      "fieldname": "insurance_provider",
+      "fieldtype": "Link",
+      "label": "Insurance Provider",
+      "options": "Insurance Provider",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "priority",
+      "fieldtype": "Int",
+      "label": "Priority / Rank",
+      "default": "10",
+      "in_list_view": 1,
+      "description": "Lower number = higher preference when multiple insurers match"
+    },
+    {
+      "fieldname": "is_active",
+      "fieldtype": "Check",
+      "label": "Is Active",
+      "default": "1",
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "section_criteria",
+      "fieldtype": "Section Break",
+      "label": "Selection Criteria"
+    },
+    {
+      "fieldname": "line_of_business",
+      "fieldtype": "Select",
+      "label": "Line of Business",
+      "options": "Health\nAuto\nLife\nProperty\nTravel\nMarine\nLiability",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "product_category",
+      "fieldtype": "Select",
+      "label": "Product Category",
+      "options": "Individual\nFamily\nGroup\nCorporate\nSME\nRetail",
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "min_sum_insured",
+      "fieldtype": "Currency",
+      "label": "Minimum Sum Insured"
+    },
+    {
+      "fieldname": "max_sum_insured",
+      "fieldtype": "Currency",
+      "label": "Maximum Sum Insured"
+    },
+    {
+      "fieldname": "client_types",
+      "fieldtype": "Small Text",
+      "label": "Allowed Client Types",
+      "description": "Comma-separated: Individual, Corporate, SME, etc. Leave blank = All"
+    },
+    {
+      "fieldname": "min_age",
+      "fieldtype": "Int",
+      "label": "Minimum Proposer Age"
+    },
+    {
+      "fieldname": "max_age",
+      "fieldtype": "Int",
+      "label": "Maximum Proposer Age"
+    },
+    {
+      "fieldname": "geographic_zones",
+      "fieldtype": "Small Text",
+      "label": "Geographic Zones / States",
+      "description": "e.g. MH, GJ, KA or All India"
+    },
+    {
+      "fieldname": "section_quality",
+      "fieldtype": "Section Break",
+      "label": "Quality & Appetite Filters"
+    },
+    {
+      "fieldname": "min_credit_rating",
+      "fieldtype": "Data",
+      "label": "Min Credit Rating"
+    },
+    {
+      "fieldname": "min_claim_settlement_ratio",
+      "fieldtype": "Percent",
+      "label": "Min Claim Settlement Ratio (%)"
+    },
+    {
+      "fieldname": "accepts_pre_existing",
+      "fieldtype": "Select",
+      "label": "Accepts Pre-existing Disease",
+      "options": "Yes\nNo\nConditional"
+    },
+    {
+      "fieldname": "special_conditions",
+      "fieldtype": "Small Text",
+      "label": "Special Conditions / Appetite Notes"
+    },
+    {
+      "fieldname": "section_validity",
+      "fieldtype": "Section Break",
+      "label": "Agreement Validity"
+    },
+    {
+      "fieldname": "require_active_agreement",
+      "fieldtype": "Check",
+      "label": "Require Active Agreement",
+      "default": "1",
+      "description": "Only match if Insurance Provider has valid contract dates"
+    },
+    {
+      "fieldname": "valid_from",
+      "fieldtype": "Date",
+      "label": "Rule Valid From"
+    },
+    {
+      "fieldname": "valid_to",
+      "fieldtype": "Date",
+      "label": "Rule Valid To"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Text Editor",
+      "label": "Internal Notes"
+    }
+  ],
+  "modified": "2026-09-15 00:00:00",
+  "modified_by": "Administrator",
+  "module": "Insurance Core",
+  "name": "Insurer RFQ Rule",
+  "naming_rule": "By fieldname",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Insurance Manager",
+      "read": 1, "write": 1, "create": 1, "delete": 1,
+      "report": 1, "export": 1, "import": 1, "print": 1, "email": 1, "share": 1
+    },
+    {
+      "role": "Insurance Agent",
+      "read": 1, "write": 0, "create": 0, "delete": 0,
+      "report": 1, "print": 1, "email": 1
+    }
+  ],
+  "search_fields": "rule_name, insurance_provider, line_of_business",
+  "sort_field": "priority",
+  "sort_order": "ASC",
+  "title_field": "rule_name",
+  "track_changes": 1
+}
