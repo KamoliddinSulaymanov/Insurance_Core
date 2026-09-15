@@ -66,6 +66,10 @@ doc_events = {
 	"Insurance Claim": {
 		"on_update": "insurance_core.integrations.sync_claim_ticket",
 	},
+	# Broker RFQ extension — core RFQ / Supplier Quotation schema is never modified
+	"Supplier Quotation": {
+		"on_submit": "insurance_core.rfq.on_supplier_quotation_submit",
+	},
 }
 
 override_doctype_class = {}
