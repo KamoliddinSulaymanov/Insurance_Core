@@ -241,17 +241,8 @@ def _doctype_exists(name: str) -> bool:
 	return bool(frappe.db.exists("DocType", name))
 
 
-def ensure_workspace():
-	"""Create a public Workspace so Insurance Core appears on the Desk.
-
-	Modern Frappe (v14+) shows modules via Workspace, not Module Def alone.
-	Idempotent: only inserts when missing; does not overwrite user customisations.
-	"""
-	if not frappe.db.exists("DocType", "Workspace"):
-		return
-	if frappe.db.exists("Workspace", "Insurance Core"):
-		return
-
+def _workspace_links_and_shortcuts():
+	"""Build Workspace links / shortcuts from doctypes that exist on this site."""
 	links = []
 	for row in WORKSPACE_LINKS:
 		if row["type"] == "Link" and not _doctype_exists(row["link_to"]):
@@ -273,16 +264,15 @@ def ensure_workspace():
 	filtered = []
 	for i, row in enumerate(links):
 		if row["type"] == "Card Break":
-			next_links = []
+			has_child = False
 			for r in links[i + 1 :]:
 				if r["type"] == "Card Break":
 					break
-				next_links.append(r)
-			if not next_links:
+				has_child = True
+				break
+			if not has_child:
 				continue
 		filtered.append(row)
-		else:
-			filtered.append(row)
 	links = filtered
 
 	shortcuts = []
@@ -296,7 +286,6 @@ def ensure_workspace():
 			"doc_view": "List",
 		})
 
-	# Minimal content JSON so the workspace is not empty in the block editor
 	content_blocks = []
 	if shortcuts:
 		content_blocks.append({
@@ -310,11 +299,53 @@ def ensure_workspace():
 				"type": "shortcut",
 				"data": {"shortcut_name": s["label"], "col": 3},
 			})
+	return links, shortcuts, content_blocks
+
+
+def ensure_workspace():
+	"""Create or repair a public Workspace so Insurance Core appears on the Desk.
+
+	Modern Frappe (v14+) shows modules via Workspace, not Module Def alone.
+	- Inserts when missing
+	- If present but hidden / not public, forces public + visible (does not wipe custom links)
+	"""
+	if not frappe.db.exists("DocType", "Workspace"):
+		return
+
+	links, shortcuts, content_blocks = _workspace_links_and_shortcuts()
+	name = "Insurance Core"
+
+	if frappe.db.exists("Workspace", name):
+		# Repair visibility only — keep user customisations of links/content
+		try:
+			ws = frappe.get_doc("Workspace", name)
+			changed = False
+			if hasattr(ws, "is_hidden") and ws.is_hidden:
+				ws.is_hidden = 0
+				changed = True
+			if hasattr(ws, "public") and not ws.public:
+				ws.public = 1
+				changed = True
+			if hasattr(ws, "module") and not ws.module:
+				ws.module = "Insurance Core"
+				changed = True
+			if hasattr(ws, "icon") and not ws.icon:
+				ws.icon = "shield"
+				changed = True
+			if changed:
+				ws.save(ignore_permissions=True)
+				frappe.db.commit()  # nosemgrep
+		except Exception as e:
+			try:
+				frappe.logger("insurance_core").warning(f"Workspace repair skipped: {e}")
+			except Exception:
+				pass
+		return
 
 	doc = frappe.get_doc({
 		"doctype": "Workspace",
-		"label": "Insurance Core",
-		"title": "Insurance Core",
+		"label": name,
+		"title": name,
 		"module": "Insurance Core",
 		"public": 1,
 		"is_hidden": 0,
@@ -323,18 +354,24 @@ def ensure_workspace():
 		"links": links,
 		"shortcuts": shortcuts,
 	})
-	# Some sites set standard=1 for app-shipped workspaces
 	if "standard" in [df.fieldname for df in frappe.get_meta("Workspace").fields]:
 		doc.standard = 0
-	doc.insert(ignore_permissions=True)
-	frappe.db.commit()  # nosemgrep — make workspace visible before desktop icons
+	try:
+		doc.insert(ignore_permissions=True)
+		frappe.db.commit()  # nosemgrep
+	except Exception as e:
+		try:
+			frappe.logger("insurance_core").warning(f"Workspace insert skipped: {e}")
+		except Exception:
+			pass
 
 
 def ensure_desktop_icon():
-	"""Seed Desktop Icon(s) so Insurance Core shows on the Desk home grid.
+	"""Seed Desktop Icon(s) so Insurance Core shows on the Desk home / Apps grid.
 
-	On Frappe v16+, icons come from the Desktop Icon doctype (seeded from
-	add_to_apps_screen + public Workspaces). On older versions this is a no-op.
+	v15/v16: Desktop Icon rows are generated from public Workspaces.
+	We call create_desktop_icons(), then ensure an explicit row exists for
+	Insurance Core (Link → Workspace Sidebar, plus optional App tile with logo).
 	"""
 	try:
 		from frappe.desk.doctype.desktop_icon.desktop_icon import create_desktop_icons
@@ -342,7 +379,6 @@ def ensure_desktop_icon():
 		create_desktop_icons()
 		frappe.db.commit()  # nosemgrep
 	except ImportError:
-		# Pre-v16: Workspace alone is enough for the module list
 		pass
 	except Exception as e:
 		try:
@@ -350,17 +386,57 @@ def ensure_desktop_icon():
 		except Exception:
 			pass
 
-	# Explicit App icon fallback if create_desktop_icons did not create one
-	# (e.g. Desktop Settings not on Desktop Icons page, or race during install).
 	if not frappe.db.exists("DocType", "Desktop Icon"):
 		return
-	app_title = "Insurance Core"
-	if frappe.db.exists("Desktop Icon", app_title):
-		return
-	try:
-		icon = frappe.get_doc({
-			"doctype": "Desktop Icon",
-			"label": app_title,
+
+	label = "Insurance Core"
+	meta_fields = {df.fieldname for df in frappe.get_meta("Desktop Icon").fields}
+
+	def _insert_icon(values: dict) -> bool:
+		"""Insert Desktop Icon with only fields that exist on this site."""
+		payload = {"doctype": "Desktop Icon"}
+		for k, v in values.items():
+			if k in meta_fields or k in ("doctype",):
+				payload[k] = v
+		# Always keep label
+		payload["label"] = values.get("label", label)
+		try:
+			if frappe.db.exists("Desktop Icon", payload["label"]):
+				# Unhide if previously hidden
+				doc = frappe.get_doc("Desktop Icon", payload["label"])
+				if getattr(doc, "hidden", 0):
+					doc.hidden = 0
+					doc.save(ignore_permissions=True)
+					frappe.db.commit()  # nosemgrep
+				return True
+			frappe.get_doc(payload).insert(ignore_permissions=True)
+			frappe.db.commit()  # nosemgrep
+			return True
+		except Exception as e:
+			try:
+				frappe.logger("insurance_core").warning(f"Desktop Icon insert skipped ({payload.get('icon_type')}): {e}")
+			except Exception:
+				pass
+			return False
+
+	# 1) Workspace tile (primary for Desk sidebar / module list)
+	_insert_icon({
+		"label": label,
+		"icon_type": "Link",
+		"link_type": "Workspace Sidebar",
+		"link_to": label,
+		"icon": "shield",
+		"standard": 1,
+		"hidden": 0,
+		"idx": 0,
+	})
+
+	# 2) App tile with logo (Apps page / desktop grid that uses logo_url)
+	# Use a distinct label only if Link row already occupies "Insurance Core"
+	# On many sites one row is enough; try App type on same label after unhide above.
+	if not frappe.db.exists("Desktop Icon", label):
+		_insert_icon({
+			"label": label,
 			"icon_type": "App",
 			"link_type": "External",
 			"app": "insurance_core",
@@ -370,13 +446,12 @@ def ensure_desktop_icon():
 			"hidden": 0,
 			"idx": 0,
 		})
-		icon.insert(ignore_permissions=True)
-		frappe.db.commit()  # nosemgrep
-	except Exception as e:
-		try:
-			frappe.logger("insurance_core").warning(f"Desktop Icon insert skipped: {e}")
-		except Exception:
-			pass
+
+	# Clear caches so Desk picks up the new icon without a full restart
+	try:
+		frappe.clear_cache()
+	except Exception:
+		pass
 
 
 def seed_eligibility_criteria():
