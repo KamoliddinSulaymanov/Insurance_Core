@@ -1,1 +1,367 @@
-PLACEHOLDER
+{
+ "actions": [],
+ "allow_import": 0,
+ "allow_rename": 0,
+ "autoname": "PUP-.YYYY.-.#####",
+ "creation": "2026-09-16 00:00:00",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_upload",
+  "policy_pdf",
+  "column_break_upload",
+  "status",
+  "parse_status",
+  "section_client_choice",
+  "client_mode",
+  "existing_client",
+  "column_break_client",
+  "new_client_name",
+  "new_client_email",
+  "new_client_phone",
+  "new_client_dob",
+  "new_client_address",
+  "section_extracted",
+  "extracted_policy_number",
+  "extracted_provider_name",
+  "extracted_scheme_name",
+  "extracted_sum_assured",
+  "extracted_premium",
+  "extracted_premium_frequency",
+  "extracted_start_date",
+  "extracted_end_date",
+  "extracted_issue_date",
+  "extracted_insured_name",
+  "column_break_extracted",
+  "provider",
+  "scheme",
+  "coverage_level",
+  "policy_type",
+  "agent",
+  "section_terms",
+  "extracted_terms_and_conditions",
+  "extracted_claim_eligibility",
+  "extracted_exclusions",
+  "section_raw",
+  "raw_extracted_text",
+  "parse_log",
+  "section_result",
+  "created_client",
+  "created_policy",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_upload",
+   "fieldtype": "Section Break",
+   "label": "Upload Policy PDF"
+  },
+  {
+   "fieldname": "policy_pdf",
+   "fieldtype": "Attach",
+   "label": "Policy Document (PDF)",
+   "reqd": 1,
+   "description": "Upload the insurer policy schedule / wordings PDF. Only PDF is supported."
+  },
+  {
+   "fieldname": "column_break_upload",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nParsed\nClient Linked\nPolicy Created\nFailed\nCancelled",
+   "default": "Draft",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "parse_status",
+   "fieldtype": "Small Text",
+   "label": "Parse Status / Message",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_client_choice",
+   "fieldtype": "Section Break",
+   "label": "Client"
+  },
+  {
+   "fieldname": "client_mode",
+   "fieldtype": "Select",
+   "label": "Client Mode",
+   "options": "Existing Client\nCreate New Client",
+   "default": "Existing Client",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "existing_client",
+   "fieldtype": "Link",
+   "label": "Existing Client",
+   "options": "Insurance Client",
+   "depends_on": "eval:doc.client_mode=='Existing Client'",
+   "mandatory_depends_on": "eval:doc.client_mode=='Existing Client'"
+  },
+  {
+   "fieldname": "column_break_client",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "new_client_name",
+   "fieldtype": "Data",
+   "label": "New Client Full Name",
+   "depends_on": "eval:doc.client_mode=='Create New Client'",
+   "mandatory_depends_on": "eval:doc.client_mode=='Create New Client'"
+  },
+  {
+   "fieldname": "new_client_email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email",
+   "depends_on": "eval:doc.client_mode=='Create New Client'"
+  },
+  {
+   "fieldname": "new_client_phone",
+   "fieldtype": "Data",
+   "label": "Phone",
+   "options": "Phone",
+   "depends_on": "eval:doc.client_mode=='Create New Client'"
+  },
+  {
+   "fieldname": "new_client_dob",
+   "fieldtype": "Date",
+   "label": "Date of Birth",
+   "depends_on": "eval:doc.client_mode=='Create New Client'"
+  },
+  {
+   "fieldname": "new_client_address",
+   "fieldtype": "Small Text",
+   "label": "Address",
+   "depends_on": "eval:doc.client_mode=='Create New Client'"
+  },
+  {
+   "fieldname": "section_extracted",
+   "fieldtype": "Section Break",
+   "label": "Extracted Policy Fields (review & edit before create)"
+  },
+  {
+   "fieldname": "extracted_policy_number",
+   "fieldtype": "Data",
+   "label": "Policy Number",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "extracted_provider_name",
+   "fieldtype": "Data",
+   "label": "Provider Name (from PDF)"
+  },
+  {
+   "fieldname": "extracted_scheme_name",
+   "fieldtype": "Data",
+   "label": "Scheme / Product Name (from PDF)"
+  },
+  {
+   "fieldname": "extracted_sum_assured",
+   "fieldtype": "Currency",
+   "label": "Sum Assured"
+  },
+  {
+   "fieldname": "extracted_premium",
+   "fieldtype": "Currency",
+   "label": "Premium Amount"
+  },
+  {
+   "fieldname": "extracted_premium_frequency",
+   "fieldtype": "Select",
+   "label": "Premium Frequency",
+   "options": "\nMonthly\nQuarterly\nSemi-Annually\nAnnually"
+  },
+  {
+   "fieldname": "extracted_start_date",
+   "fieldtype": "Date",
+   "label": "Start / Risk Commencement Date"
+  },
+  {
+   "fieldname": "extracted_end_date",
+   "fieldtype": "Date",
+   "label": "End / Expiry Date"
+  },
+  {
+   "fieldname": "extracted_issue_date",
+   "fieldtype": "Date",
+   "label": "Issue Date"
+  },
+  {
+   "fieldname": "extracted_insured_name",
+   "fieldtype": "Data",
+   "label": "Insured / Proposer Name (from PDF)"
+  },
+  {
+   "fieldname": "column_break_extracted",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "provider",
+   "fieldtype": "Link",
+   "label": "Insurance Provider",
+   "options": "Insurance Provider",
+   "description": "Map extracted provider name to master. Required before creating policy."
+  },
+  {
+   "fieldname": "scheme",
+   "fieldtype": "Link",
+   "label": "Insurance Scheme",
+   "options": "Insurance Scheme",
+   "description": "Map extracted product to scheme master. Required before creating policy."
+  },
+  {
+   "fieldname": "coverage_level",
+   "fieldtype": "Select",
+   "label": "Coverage Level",
+   "options": "Basic\nStandard\nPremium\nPlatinum",
+   "default": "Standard"
+  },
+  {
+   "fieldname": "policy_type",
+   "fieldtype": "Select",
+   "label": "Policy Type",
+   "options": "New Business\nNew\nRenewal\nEndorsement\nMigration\nPorted",
+   "default": "New Business"
+  },
+  {
+   "fieldname": "agent",
+   "fieldtype": "Data",
+   "label": "Agent"
+  },
+  {
+   "fieldname": "section_terms",
+   "fieldtype": "Section Break",
+   "label": "Terms, Conditions & Claim Eligibility (stored on Policy for AI claim comparison)"
+  },
+  {
+   "fieldname": "extracted_terms_and_conditions",
+   "fieldtype": "Text Editor",
+   "label": "Terms & Conditions"
+  },
+  {
+   "fieldname": "extracted_claim_eligibility",
+   "fieldtype": "Text Editor",
+   "label": "Claim Eligibility / Conditions"
+  },
+  {
+   "fieldname": "extracted_exclusions",
+   "fieldtype": "Text Editor",
+   "label": "Exclusions"
+  },
+  {
+   "fieldname": "section_raw",
+   "fieldtype": "Section Break",
+   "label": "Raw Extraction (debug)",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "raw_extracted_text",
+   "fieldtype": "Long Text",
+   "label": "Raw Extracted Text",
+   "read_only": 1
+  },
+  {
+   "fieldname": "parse_log",
+   "fieldtype": "Long Text",
+   "label": "Parse Log",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_result",
+   "fieldtype": "Section Break",
+   "label": "Result"
+  },
+  {
+   "fieldname": "created_client",
+   "fieldtype": "Link",
+   "label": "Created / Linked Client",
+   "options": "Insurance Client",
+   "read_only": 1
+  },
+  {
+   "fieldname": "created_policy",
+   "fieldtype": "Link",
+   "label": "Created Policy",
+   "options": "Insurance Policy",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "options": "Policy Upload",
+   "read_only": 1,
+   "no_copy": 1,
+   "print_hide": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "is_submittable": 0,
+ "links": [
+  {
+   "link_doctype": "Insurance Policy",
+   "link_fieldname": "name",
+   "group": "Policy"
+  }
+ ],
+ "modified": "2026-09-16 00:00:00",
+ "modified_by": "Administrator",
+ "module": "Insurance Core",
+ "name": "Policy Upload",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Insurance Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Insurance Agent",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "export": 0,
+   "share": 0,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "print": 1,
+   "email": 1
+  }
+ ],
+ "search_fields": "extracted_policy_number, extracted_insured_name, status",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "extracted_policy_number",
+ "track_changes": 1
+}
