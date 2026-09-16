@@ -55,6 +55,16 @@ WORKSPACE_LINKS = [
 FLOW_APP = "flow"
 FLOW_GIT = "https://github.com/frappe/flow_client.git"
 
+def setup_rfq_extension():
+	"""Idempotent Broker RFQ fields, client scripts, sample rules."""
+	try:
+		from insurance_core.rfq_extension.install_rfq_extension import setup_for_hooks
+		setup_for_hooks()
+	except Exception as e:
+		try:
+			frappe.logger("insurance_core").warning(f"RFQ extension setup skipped: {e}")
+		except Exception:
+			pass
 
 def after_install():
 	ensure_flow_app()
