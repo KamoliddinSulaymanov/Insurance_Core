@@ -66,6 +66,8 @@ def after_install():
 	setup_ai_triage()
 	# Optional interactive demo data (CLI prompt)
 	prompt_demo_data()
+	setup_rfq_extension() 
+	setup_for_hooks()
 
 
 def after_migrate():
@@ -76,6 +78,8 @@ def after_migrate():
 	ensure_desktop_icon()
 	seed_eligibility_criteria()
 	setup_ai_triage()
+	setup_rfq_extension() 
+	setup_for_hooks()
 
 
 def ensure_flow_app(fetch_if_missing: bool = False) -> dict:
