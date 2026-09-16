@@ -1,0 +1,92 @@
+{
+  "actions": [],
+  "creation": "2026-09-15 00:00:00",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "insurance_provider",
+    "supplier",
+    "status",
+    "column_break_1",
+    "supplier_quotation",
+    "insurance_quotation",
+    "invited_on",
+    "responded_on",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "insurance_provider",
+      "fieldtype": "Link",
+      "label": "Insurance Provider",
+      "options": "Insurance Provider",
+      "reqd": 1,
+      "in_list_view": 1,
+      "columns": 2
+    },
+    {
+      "fieldname": "supplier",
+      "fieldtype": "Link",
+      "label": "ERPNext Supplier",
+      "options": "Supplier",
+      "in_list_view": 1,
+      "columns": 2,
+      "description": "Mapped from Insurance Provider.erpnext_supplier (our field)"
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Invited\nQuote Received\nDeclined\nSelected",
+      "default": "Invited",
+      "reqd": 1,
+      "in_list_view": 1,
+      "columns": 1
+    },
+    {
+      "fieldname": "column_break_1",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "supplier_quotation",
+      "fieldtype": "Link",
+      "label": "Supplier Quotation",
+      "options": "Supplier Quotation",
+      "in_list_view": 1,
+      "columns": 2
+    },
+    {
+      "fieldname": "insurance_quotation",
+      "fieldtype": "Link",
+      "label": "Insurance Quotation",
+      "options": "Insurance Quotation",
+      "in_list_view": 1,
+      "columns": 2
+    },
+    {
+      "fieldname": "invited_on",
+      "fieldtype": "Datetime",
+      "label": "Invited On",
+      "in_list_view": 0
+    },
+    {
+      "fieldname": "responded_on",
+      "fieldtype": "Datetime",
+      "label": "Responded On"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Small Text",
+      "label": "Notes"
+    }
+  ],
+  "istable": 1,
+  "modified": "2026-09-15 00:00:00",
+  "modified_by": "Administrator",
+  "module": "Insurance Core",
+  "name": "Insurance RFQ Insurer",
+  "owner": "Administrator",
+  "permissions": [],
+  "track_changes": 1
+}
