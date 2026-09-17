@@ -109,7 +109,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "in_global_search": 1,
-   "options": "Health\nAuto\nLife\nProperty\nTravel\nMarine\nLiability",
+   "options": "Health\nAuto\nLife\nProperty\nTravel\nMarine\nLiability\nEngineering",
    "width": 130
   },
   {
@@ -443,17 +443,17 @@
    "link_fieldname": "scheme",
    "group": "Policies"
   },
-   {
-    "link_doctype": "Insurance Quotation",
-    "link_fieldname": "scheme",
-    "group": "Quotes"
-   },
-   {
-    "link_doctype": "Client Eligibility Criteria",
-    "link_fieldname": "insurance_scheme",
-    "group": "Eligibility"
-   }
-  ],
+  {
+   "link_doctype": "Insurance Quotation",
+   "link_fieldname": "scheme",
+   "group": "Quotes"
+  },
+  {
+   "link_doctype": "Client Eligibility Criteria",
+   "link_fieldname": "insurance_scheme",
+   "group": "Eligibility"
+  }
+ ],
  "modified": "2026-09-06 12:00:00",
  "modified_by": "Administrator",
  "module": "Insurance Core",
