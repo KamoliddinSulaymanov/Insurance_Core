@@ -56,7 +56,7 @@ CUSTOM_FIELDS = {
 			"fieldname": "line_of_business",
 			"label": "Line of Business",
 			"fieldtype": "Select",
-			"options": "Health\nAuto\nLife\nProperty\nTravel\nMarine\nLiability",
+			"options": "Health\nAuto\nLife\nProperty\nTravel\nMarine\nLiability\nEngineering",
 			"insert_after": "insurance_scheme",
 			"in_list_view": 1,
 			"in_standard_filter": 1,
