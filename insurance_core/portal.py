@@ -37,7 +37,7 @@ def _assert_owns_claim(claim_name, client):
 		frappe.throw(_("You do not have access to this claim."), frappe.PermissionError)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["GET", "POST"])
 def portal_me():
 	"""Current user + linked insurance client for the app shell."""
 	user = frappe.session.user
@@ -80,7 +80,7 @@ def portal_me():
 	}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["GET", "POST"])
 def portal_search(q=None, limit=10):
 	"""Search the current client's policies and claims."""
 	client = _current_client()
@@ -120,7 +120,7 @@ def portal_search(q=None, limit=10):
 	return {"policies": policies, "claims": claims}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["GET", "POST"])
 def portal_dashboard():
 	client = _current_client()
 	policies = frappe.get_all(
@@ -151,7 +151,7 @@ def portal_dashboard():
 	}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["GET", "POST"])
 def portal_list_policies():
 	client = _current_client()
 	return frappe.get_all(
@@ -175,7 +175,7 @@ def portal_list_policies():
 	)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["GET", "POST"])
 def portal_get_policy(policy):
 	client = _current_client()
 	_assert_owns_policy(policy, client)
@@ -188,7 +188,7 @@ def portal_get_policy(policy):
 	}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["GET", "POST"])
 def portal_list_claims():
 	client = _current_client()
 	return frappe.get_all(
@@ -209,7 +209,7 @@ def portal_list_claims():
 	)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["GET", "POST"])
 def portal_get_claim(claim):
 	client = _current_client()
 	_assert_owns_claim(claim, client)
@@ -317,7 +317,7 @@ def portal_request_endorsement(policy, endorsement_type, description, new_value=
 	return {"name": doc.name, "endorsement_number": doc.endorsement_number, "premium_impact": doc.premium_impact}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["GET", "POST"])
 def portal_policy_print(policy):
 	client = _current_client()
 	_assert_owns_policy(policy, client)
@@ -326,7 +326,7 @@ def portal_policy_print(policy):
 	return get_print_html("Insurance Policy", policy)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["GET", "POST"])
 def portal_claim_print(claim, settlement=0):
 	client = _current_client()
 	_assert_owns_claim(claim, client)
