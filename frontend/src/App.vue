@@ -131,20 +131,19 @@
 
     <!-- Main column -->
     <div class="flex-1 min-w-0 flex flex-col min-h-screen">
-      <!-- Top bar: search + profile -->
+      <!-- Top bar: search + profile (right-aligned) -->
       <header class="sticky top-0 z-20 bg-white border-b h-14 flex items-center gap-3 px-3 sm:px-4">
         <button
-          class="lg:hidden h-9 w-9 inline-flex items-center justify-center rounded-md text-gray-600 hover:bg-gray-100"
+          class="lg:hidden h-9 w-9 inline-flex items-center justify-center rounded-md text-gray-600 hover:bg-gray-100 shrink-0"
           @click="mobileOpen = true">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
 
-        <!-- Spacer pushes search + profile to the right -->
-        <div class="flex-1 min-w-0" aria-hidden="true" />
-
-        <div class="relative w-full max-w-md sm:max-w-xl" data-search-root>
+        <!-- ml-auto group: search + profile sit on the right -->
+        <div class="ml-auto flex items-center gap-2 sm:gap-3 min-w-0">
+        <div class="relative w-44 sm:w-64 md:w-80 lg:w-96 shrink" data-search-root>
           <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -263,6 +262,7 @@
             </button>
           </div>
         </div>
+        </div><!-- /ml-auto group -->
       </header>
 
       <main class="flex-1">
@@ -312,7 +312,6 @@ export default {
       searchQuery: '',
       searchTimer: null,
       loggingOut: false,
-      // Health open by default; other LOBs collapsed
       openSections: {
         health: true,
         fire: false,
