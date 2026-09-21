@@ -10,6 +10,8 @@ import { Button, setConfig, frappeRequest, resourcesPlugin } from 'frappe-ui'
  * Ensure window.csrf_token is a real token before any resource fetch.
  * Production page (www/insurance_core.html) injects it via Jinja.
  * Fallback: cookie, then GET frappe.sessions.get_csrf_token.
+ *
+ * Note: no top-level await — Vite/esbuild target is es2015.
  */
 async function ensureCsrfToken() {
   const bad = (t) =>
@@ -51,14 +53,19 @@ async function ensureCsrfToken() {
   }
 }
 
-await ensureCsrfToken()
+function mountApp() {
+  const app = createApp(App)
 
-let app = createApp(App)
+  setConfig('resourceFetcher', frappeRequest)
 
-setConfig('resourceFetcher', frappeRequest)
+  app.use(router)
+  app.use(resourcesPlugin)
 
-app.use(router)
-app.use(resourcesPlugin)
+  app.component('Button', Button)
+  app.mount('#app')
+}
 
-app.component('Button', Button)
-app.mount('#app')
+// Async bootstrap without top-level await (es2015 target)
+ensureCsrfToken()
+  .catch((e) => console.warn('[insurance_core] CSRF bootstrap error', e))
+  .finally(() => mountApp())
