@@ -66,6 +66,24 @@ def setup_rfq_extension():
 		except Exception:
 			pass
 
+
+def setup_engineering_vertical():
+	"""Ensure Engineering LOB is on Select options + optional sample schemes.
+
+	Source JSON already lists Engineering; this forces Property Setter / DocField
+	updates on existing sites where migrate alone does not refresh Select options.
+	"""
+	try:
+		from insurance_core.add_engineering_vertical import setup as eng_setup
+		# seed_schemes=True is idempotent; only inserts if demo providers exist
+		eng_setup(seed_schemes=True)
+	except Exception as e:
+		try:
+			frappe.logger("insurance_core").warning(f"Engineering vertical setup skipped: {e}")
+		except Exception:
+			pass
+
+
 def after_install():
 	ensure_flow_app()
 	ensure_roles()
@@ -74,9 +92,10 @@ def after_install():
 	ensure_desktop_icon()
 	seed_eligibility_criteria()
 	setup_ai_triage()
+	setup_rfq_extension()
+	setup_engineering_vertical()
 	# Optional interactive demo data (CLI prompt)
 	prompt_demo_data()
-	setup_rfq_extension() 
 
 
 def after_migrate():
@@ -87,7 +106,8 @@ def after_migrate():
 	ensure_desktop_icon()
 	seed_eligibility_criteria()
 	setup_ai_triage()
-	setup_rfq_extension() 
+	setup_rfq_extension()
+	setup_engineering_vertical()
 
 
 def ensure_flow_app(fetch_if_missing: bool = False) -> dict:
