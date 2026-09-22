@@ -1324,11 +1324,15 @@ def _exists(doctype: str, filters: dict) -> bool:
 
 
 def _insert(doctype: str, data: dict, unique_filters: dict | None = None) -> str | None:
-	"""Insert if not exists. Returns name or None if skipped."""
+	"""Insert if not exists. Returns name or None if skipped (including on
+	business-rule validation failures from randomly generated demo data)."""
 	if unique_filters and _exists(doctype, unique_filters):
 		return frappe.db.get_value(doctype, unique_filters, "name")
 	doc = frappe.get_doc({"doctype": doctype, **data})
-	doc.insert(ignore_permissions=True, ignore_mandatory=True)
+	try:
+		doc.insert(ignore_permissions=True, ignore_mandatory=True)
+	except frappe.exceptions.ValidationError:
+		return None
 	return doc.name
 
 
@@ -1486,7 +1490,15 @@ def seed_policies(count: int = 600):
 	schemes = frappe.get_all(
 		"Insurance Scheme",
 		filters={"scheme_id": ["like", "SCH-%"]},
-		fields=["name", "scheme_id", "provider", "scheme_name", "line_of_business"],
+		fields=[
+			"name",
+			"scheme_id",
+			"provider",
+			"scheme_name",
+			"line_of_business",
+			"minimum_sum_assured",
+			"maximum_sum_assured",
+		],
 	)
 	if not clients or not schemes:
 		return 0
@@ -1507,6 +1519,10 @@ def seed_policies(count: int = 600):
 		start = getdate(_date_between(date(2023, 1, 1), date(2025, 6, 1)))
 		end = add_months(start, 12)
 		sum_assured = random.choice([300000, 500000, 750000, 1000000, 1500000, 2000000, 5000000])
+		if scheme.minimum_sum_assured and sum_assured < scheme.minimum_sum_assured:
+			sum_assured = scheme.minimum_sum_assured
+		if scheme.maximum_sum_assured and sum_assured > scheme.maximum_sum_assured:
+			sum_assured = scheme.maximum_sum_assured
 		premium = round(sum_assured * random.uniform(0.008, 0.035), 0)
 		gst = round(premium * 0.18, 0)
 		comm_rate = random.choice([10, 12, 12.5, 15, 18])

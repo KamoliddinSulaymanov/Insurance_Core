@@ -1,7 +1,7 @@
 from urllib.parse import urlparse
 
 import frappe
-from frappe import _
+from frappe import _, safe_eval
 from frappe.utils import (
 	add_days,
 	cint,
@@ -10,7 +10,6 @@ from frappe.utils import (
 	getdate,
 	now_datetime,
 	nowdate,
-	safe_eval,
 )
 
 CACHE_KEY = "insurance_eligibility_criteria"
@@ -42,7 +41,7 @@ class EligibilityResult:
 def _engine_enabled():
 	if not frappe.db.exists("DocType", "Insurance Settings"):
 		return True
-	if not frappe.db.has_column("Insurance Settings", "enable_eligibility_engine"):
+	if not frappe.get_meta("Insurance Settings").has_field("enable_eligibility_engine"):
 		return True
 	return cint(frappe.db.get_single_value("Insurance Settings", "enable_eligibility_engine") or 1)
 
@@ -58,8 +57,9 @@ def _settings():
 	if not frappe.db.exists("DocType", "Insurance Settings"):
 		return defaults
 	out = dict(defaults)
+	meta = frappe.get_meta("Insurance Settings")
 	for key in defaults:
-		if frappe.db.has_column("Insurance Settings", key):
+		if meta.has_field(key):
 			val = frappe.db.get_single_value("Insurance Settings", key)
 			if val not in (None, ""):
 				out[key] = val
