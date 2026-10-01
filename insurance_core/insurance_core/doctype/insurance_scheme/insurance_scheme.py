@@ -50,15 +50,25 @@ def get_schemes_by_provider(provider):
 	)
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_active_schemes(scheme_type=None):
-	filters = {"status": "Active"}
+	filters = {"status": ["in", ["Active", "Published"]]}
 	if scheme_type:
 		filters["line_of_business"] = scheme_type
 	return frappe.get_all(
 		"Insurance Scheme",
 		filters=filters,
-		fields=["name", "scheme_name", "provider", "line_of_business", "policy_type"],
+		fields=[
+			"name",
+			"scheme_id",
+			"scheme_name",
+			"provider",
+			"line_of_business",
+			"policy_type",
+			"description",
+			"minimum_sum_assured",
+			"maximum_sum_assured",
+		],
 	)
 
 

@@ -1,0 +1,69 @@
+{
+ "actions": [],
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2026-10-01 08:00:00",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "condition",
+  "action_type",
+  "action_value",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Rule Title / Reason",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "e.g. Young Driver Surcharge, Family Discount"
+  },
+  {
+   "fieldname": "condition",
+   "fieldtype": "Data",
+   "label": "Condition Expression",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Python expression evaluated on input data, e.g. driver_age < 21 or car_type == 'SUV'"
+  },
+  {
+   "fieldname": "action_type",
+   "fieldtype": "Select",
+   "label": "Action Type",
+   "options": "Multiply Rate\nAdd Amount\nSubtract Amount\nDiscount Percent",
+   "default": "Multiply Rate",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "action_value",
+   "fieldtype": "Float",
+   "label": "Action Value",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Multiplier (e.g. 1.3), Amount (e.g. 50000), or Percent (e.g. 10)"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "issingle": 0,
+ "is_submittable": 0,
+ "links": [],
+ "modified": "2026-10-01 08:00:00",
+ "modified_by": "Administrator",
+ "module": "Insurance Core",
+ "name": "Product Calculation Surcharge",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC"
+}

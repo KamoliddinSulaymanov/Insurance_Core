@@ -1,0 +1,85 @@
+{
+ "actions": [],
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2026-10-01 08:00:00",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "installment_no",
+  "due_date",
+  "amount",
+  "payment_status",
+  "paid_amount",
+  "paid_date",
+  "payment_reference"
+ ],
+ "fields": [
+  {
+   "fieldname": "installment_no",
+   "fieldtype": "Int",
+   "label": "#",
+   "in_list_view": 1,
+   "reqd": 1,
+   "width": 50
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date",
+   "in_list_view": 1,
+   "reqd": 1,
+   "width": 120
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Installment Amount",
+   "in_list_view": 1,
+   "reqd": 1,
+   "width": 140
+  },
+  {
+   "fieldname": "payment_status",
+   "fieldtype": "Select",
+   "label": "Payment Status",
+   "options": "Pending\nPaid\nPartially Paid\nOverdue\nCancelled",
+   "default": "Pending",
+   "in_list_view": 1,
+   "width": 120
+  },
+  {
+   "fieldname": "paid_amount",
+   "fieldtype": "Currency",
+   "label": "Paid Amount",
+   "default": "0.0",
+   "in_list_view": 1,
+   "width": 140
+  },
+  {
+   "fieldname": "paid_date",
+   "fieldtype": "Date",
+   "label": "Paid Date",
+   "width": 120
+  },
+  {
+   "fieldname": "payment_reference",
+   "fieldtype": "Data",
+   "label": "Payment Reference / Receipt"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "issingle": 0,
+ "is_submittable": 0,
+ "links": [],
+ "modified": "2026-10-01 08:00:00",
+ "modified_by": "Administrator",
+ "module": "Insurance Core",
+ "name": "Policy Installment Schedule",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "installment_no",
+ "sort_order": "ASC"
+}

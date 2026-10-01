@@ -1,0 +1,90 @@
+{
+ "actions": [],
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2026-10-01 08:00:00",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "dim1_from",
+  "dim1_to",
+  "dim2_from",
+  "dim2_to",
+  "dim3_val",
+  "rate",
+  "amount",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "dim1_from",
+   "fieldtype": "Data",
+   "label": "Dim 1 From / Value",
+   "in_list_view": 1,
+   "reqd": 1,
+   "description": "Value or lower bound for Dimension 1"
+  },
+  {
+   "fieldname": "dim1_to",
+   "fieldtype": "Data",
+   "label": "Dim 1 To",
+   "in_list_view": 1,
+   "description": "Upper bound for Dimension 1 (leave blank if exact match)"
+  },
+  {
+   "fieldname": "dim2_from",
+   "fieldtype": "Data",
+   "label": "Dim 2 From / Value",
+   "in_list_view": 1,
+   "description": "Value or lower bound for Dimension 2"
+  },
+  {
+   "fieldname": "dim2_to",
+   "fieldtype": "Data",
+   "label": "Dim 2 To",
+   "in_list_view": 1,
+   "description": "Upper bound for Dimension 2"
+  },
+  {
+   "fieldname": "dim3_val",
+   "fieldtype": "Data",
+   "label": "Dim 3 Value",
+   "description": "Optional third dimension filter"
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Float",
+   "label": "Coefficient / Rate",
+   "default": "1.0",
+   "in_list_view": 1,
+   "description": "Multiplier coefficient (e.g. 1.25)"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Fixed Amount",
+   "default": "0.0",
+   "in_list_view": 1,
+   "description": "Fixed base amount (if applicable)"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Notes / Description"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "issingle": 0,
+ "is_submittable": 0,
+ "links": [],
+ "modified": "2026-10-01 08:00:00",
+ "modified_by": "Administrator",
+ "module": "Insurance Core",
+ "name": "Tariff Matrix Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC"
+}

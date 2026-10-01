@@ -327,6 +327,7 @@ export default {
         {
           title: 'Catalog',
           items: [
+            { to: '/products', label: 'Оформить полис онлайн', icon: icon.quote, match: '/products' },
             {
               to: '/app/insurance-provider',
               label: 'Insurance Providers',
@@ -339,6 +340,12 @@ export default {
               icon: icon.scheme,
               external: true,
             },
+          ],
+        },
+        {
+          title: 'B2B Network',
+          items: [
+            { to: '/partner', label: 'Кабинет партнера (B2B)', icon: icon.agent, match: '/partner' },
           ],
         },
         {

@@ -37,12 +37,21 @@ def _assert_owns_claim(claim_name, client):
 		frappe.throw(_("You do not have access to this claim."), frappe.PermissionError)
 
 
-@frappe.whitelist(methods=["GET", "POST"])
+@frappe.whitelist(allow_guest=True, methods=["GET", "POST"])
 def portal_me():
 	"""Current user + linked insurance client for the app shell."""
 	user = frappe.session.user
 	if not user or user == "Guest":
-		frappe.throw(_("Please log in to access the portal."), frappe.PermissionError)
+		return {
+			"user": {
+				"name": "Guest",
+				"full_name": "Гость",
+				"email": "",
+				"user_image": None,
+			},
+			"client": None,
+			"is_guest": True,
+		}
 
 	user_doc = frappe.db.get_value(
 		"User",
@@ -77,12 +86,16 @@ def portal_me():
 			"user_image": user_doc.get("user_image"),
 		},
 		"client": client,
+		"is_guest": False,
 	}
 
 
-@frappe.whitelist(methods=["GET", "POST"])
+@frappe.whitelist(allow_guest=True, methods=["GET", "POST"])
 def portal_search(q=None, limit=10):
 	"""Search the current client's policies and claims."""
+	user = frappe.session.user
+	if not user or user == "Guest":
+		return {"policies": [], "claims": []}
 	client = _current_client()
 	q = (q or "").strip()
 	if not q or len(q) < 2:

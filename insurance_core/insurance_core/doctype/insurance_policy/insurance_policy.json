@@ -49,7 +49,12 @@
   "reinsurer",
   "cession_percentage",
   "section_checklist",
-  "compliance_checklist"
+  "compliance_checklist",
+  "payment_plan",
+  "partner_account",
+  "limit_deducted",
+  "section_installments",
+  "installments"
  ],
  "fields": [
   {
@@ -322,6 +327,37 @@
    "fieldtype": "Table",
    "label": "Checklist",
    "options": "Compliance Checklist Item"
+  },
+  {
+   "fieldname": "payment_plan",
+   "fieldtype": "Select",
+   "label": "Payment Plan",
+   "options": "100% Full Payment\n50/50 Split\nQuarterly (4x25%)\nMonthly (12x)\nCustom",
+   "default": "100% Full Payment"
+  },
+  {
+   "fieldname": "partner_account",
+   "fieldtype": "Link",
+   "label": "Partner Credit Account",
+   "options": "Partner Credit Account"
+  },
+  {
+   "fieldname": "limit_deducted",
+   "fieldtype": "Check",
+   "label": "Limit Deducted from Partner",
+   "read_only": 1,
+   "default": 0
+  },
+  {
+   "fieldname": "section_installments",
+   "fieldtype": "Section Break",
+   "label": "Premium Installment Schedule"
+  },
+  {
+   "fieldname": "installments",
+   "fieldtype": "Table",
+   "label": "Installments",
+   "options": "Policy Installment Schedule"
   }
  ],
  "index_web_pages_for_search": 1,

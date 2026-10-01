@@ -48,7 +48,7 @@ def get_active_providers():
 	return _fn()
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_active_schemes(scheme_type=None):
 	from insurance_core.insurance_core.doctype.insurance_scheme.insurance_scheme import (
 		get_active_schemes as _fn,

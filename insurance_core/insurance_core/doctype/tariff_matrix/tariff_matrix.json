@@ -1,0 +1,142 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:matrix_code",
+ "creation": "2026-10-01 08:00:00",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "matrix_code",
+  "matrix_name",
+  "dim1_factor",
+  "dim2_factor",
+  "dim3_factor",
+  "column_break_1",
+  "default_rate",
+  "is_active",
+  "description",
+  "section_rows",
+  "rows"
+ ],
+ "fields": [
+  {
+   "fieldname": "matrix_code",
+   "fieldtype": "Data",
+   "label": "Matrix Code (Slug)",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "Unique identifier, e.g. matrix_kbm, matrix_kasko_power_age"
+  },
+  {
+   "fieldname": "matrix_name",
+   "fieldtype": "Data",
+   "label": "Matrix Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "dim1_factor",
+   "fieldtype": "Link",
+   "label": "Dimension 1 Factor",
+   "options": "Tariff Factor",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "dim2_factor",
+   "fieldtype": "Link",
+   "label": "Dimension 2 Factor (Optional)",
+   "options": "Tariff Factor"
+  },
+  {
+   "fieldname": "dim3_factor",
+   "fieldtype": "Link",
+   "label": "Dimension 3 Factor (Optional)",
+   "options": "Tariff Factor"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_rate",
+   "fieldtype": "Float",
+   "label": "Fallback / Default Rate",
+   "default": "1.0",
+   "description": "Rate to apply if no matrix row matches"
+  },
+  {
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active",
+   "default": "1",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description / Source"
+  },
+  {
+   "fieldname": "section_rows",
+   "fieldtype": "Section Break",
+   "label": "Matrix Values / Slabs"
+  },
+  {
+   "fieldname": "rows",
+   "fieldtype": "Table",
+   "label": "Matrix Rows",
+   "options": "Tariff Matrix Item"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 0,
+ "issingle": 0,
+ "is_submittable": 0,
+ "links": [],
+ "modified": "2026-10-01 08:00:00",
+ "modified_by": "Administrator",
+ "module": "Insurance Core",
+ "name": "Tariff Matrix",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Insurance Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "import": 1,
+   "share": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "import": 1,
+   "share": 1
+  },
+  {
+   "role": "Insurance User",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "title_field": "matrix_name"
+}

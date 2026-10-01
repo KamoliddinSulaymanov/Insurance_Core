@@ -1,0 +1,135 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:factor_code",
+ "creation": "2026-10-01 08:00:00",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "factor_code",
+  "factor_name",
+  "data_type",
+  "source_type",
+  "column_break_1",
+  "default_value",
+  "is_active",
+  "section_options",
+  "options_list",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "factor_code",
+   "fieldtype": "Data",
+   "label": "Factor Code (Slug)",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "Unique identifier, e.g. driver_age, vehicle_power, region"
+  },
+  {
+   "fieldname": "factor_name",
+   "fieldtype": "Data",
+   "label": "Factor Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "data_type",
+   "fieldtype": "Select",
+   "label": "Data Type",
+   "options": "Number\nRange\nSelect\nBoolean",
+   "default": "Number",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "source_type",
+   "fieldtype": "Select",
+   "label": "Source Type",
+   "options": "Order Field\nDerived / Formula\nDictionary",
+   "default": "Order Field"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_value",
+   "fieldtype": "Data",
+   "label": "Default Value"
+  },
+  {
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active",
+   "default": "1",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "section_options",
+   "fieldtype": "Section Break",
+   "label": "Options & Description"
+  },
+  {
+   "fieldname": "options_list",
+   "fieldtype": "Small Text",
+   "label": "Options List (for Select, one per line)",
+   "depends_on": "eval:doc.data_type=='Select'"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description / Purpose"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 0,
+ "issingle": 0,
+ "is_submittable": 0,
+ "links": [],
+ "modified": "2026-10-01 08:00:00",
+ "modified_by": "Administrator",
+ "module": "Insurance Core",
+ "name": "Tariff Factor",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Insurance Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "import": 1,
+   "share": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "import": 1,
+   "share": 1
+  },
+  {
+   "role": "Insurance User",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "title_field": "factor_name"
+}

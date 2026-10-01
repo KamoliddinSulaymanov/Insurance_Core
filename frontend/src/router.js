@@ -12,6 +12,21 @@ const routes = [
     component: () => import('@/pages/Policies.vue'),
   },
   {
+    path: '/products',
+    name: 'Products',
+    component: () => import('@/pages/Products.vue'),
+  },
+  {
+    path: '/order/:scheme',
+    name: 'OrderWizard',
+    component: () => import('@/pages/OrderWizard.vue'),
+  },
+  {
+    path: '/partner',
+    name: 'PartnerPortal',
+    component: () => import('@/pages/PartnerPortal.vue'),
+  },
+  {
     path: '/policies/:name',
     name: 'PolicyDetail',
     component: () => import('@/pages/PolicyDetail.vue'),

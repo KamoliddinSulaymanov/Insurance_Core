@@ -1,0 +1,84 @@
+{
+ "actions": [],
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2026-10-01 08:00:00",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "variable_name",
+  "source_type",
+  "tariff_factor",
+  "tariff_matrix",
+  "constant_value",
+  "fallback_value",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "variable_name",
+   "fieldtype": "Data",
+   "label": "Variable Name in Formula",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "e.g. power_rate, age_factor, region_coeff"
+  },
+  {
+   "fieldname": "source_type",
+   "fieldtype": "Select",
+   "label": "Source Type",
+   "options": "Tariff Matrix\nInput Factor\nConstant",
+   "default": "Tariff Matrix",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "tariff_matrix",
+   "fieldtype": "Link",
+   "label": "Tariff Matrix",
+   "options": "Tariff Matrix",
+   "in_list_view": 1,
+   "depends_on": "eval:doc.source_type=='Tariff Matrix'"
+  },
+  {
+   "fieldname": "tariff_factor",
+   "fieldtype": "Link",
+   "label": "Input Factor",
+   "options": "Tariff Factor",
+   "in_list_view": 1,
+   "depends_on": "eval:doc.source_type=='Input Factor'"
+  },
+  {
+   "fieldname": "constant_value",
+   "fieldtype": "Float",
+   "label": "Constant Value",
+   "depends_on": "eval:doc.source_type=='Constant'"
+  },
+  {
+   "fieldname": "fallback_value",
+   "fieldtype": "Float",
+   "label": "Fallback Value",
+   "default": "1.0",
+   "description": "Default value if input or matrix match is missing"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "issingle": 0,
+ "is_submittable": 0,
+ "links": [],
+ "modified": "2026-10-01 08:00:00",
+ "modified_by": "Administrator",
+ "module": "Insurance Core",
+ "name": "Product Calculation Factor Mapping",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC"
+}

@@ -69,7 +69,19 @@
   "renewal_allowed",
   "max_renewals",
   "terms_and_conditions",
-  "claim_process"
+  "claim_process",
+  "section_product_factory",
+  "version",
+  "calculation_rule",
+  "order_form_schema",
+  "widget_config",
+  "agreements_config",
+  "section_lock_signing",
+  "is_locked",
+  "locked_by",
+  "locked_at",
+  "signed_by",
+  "signed_at"
  ],
  "fields": [
   {
@@ -310,7 +322,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Draft\nActive\nInactive\nDiscontinued",
+   "options": "Draft\nUnder Review\nSigned\nPublished\nActive\nInactive\nDiscontinued\nArchived",
    "default": "Draft",
    "reqd": 1,
    "in_list_view": 1,
@@ -433,6 +445,80 @@
    "fieldname": "claim_process",
    "fieldtype": "Text Editor",
    "label": "Claim Process Overview"
+  },
+  {
+   "fieldname": "section_product_factory",
+   "fieldtype": "Section Break",
+   "label": "Product Factory & No-Code Config"
+  },
+  {
+   "fieldname": "version",
+   "fieldtype": "Data",
+   "label": "Product Version",
+   "default": "1.0",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "calculation_rule",
+   "fieldtype": "Link",
+   "label": "Calculation Rule",
+   "options": "Product Calculation Rule"
+  },
+  {
+   "fieldname": "order_form_schema",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Order Form Schema (JSON)"
+  },
+  {
+   "fieldname": "widget_config",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Widget Configuration (JSON)"
+  },
+  {
+   "fieldname": "agreements_config",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Terms & Consents (JSON)"
+  },
+  {
+   "fieldname": "section_lock_signing",
+   "fieldtype": "Section Break",
+   "label": "Locking & Signing Status"
+  },
+  {
+   "fieldname": "is_locked",
+   "fieldtype": "Check",
+   "label": "Is Locked for Editing",
+   "read_only": 1,
+   "default": 0
+  },
+  {
+   "fieldname": "locked_by",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Locked By",
+   "read_only": 1
+  },
+  {
+   "fieldname": "locked_at",
+   "fieldtype": "Datetime",
+   "label": "Locked At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "signed_by",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Signed By",
+   "read_only": 1
+  },
+  {
+   "fieldname": "signed_at",
+   "fieldtype": "Datetime",
+   "label": "Signed At",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
